@@ -2,4 +2,3 @@ fastapi
 sqlalchemy
 python-dotenv
 psycopg2
-PyJWT`
