@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session # type: ignore
 
-from . import models, schemas
+from models import Item
+from schemas import CreateTodo
 
 
 # def get_user(db: Session, user_id: int):
@@ -12,7 +13,7 @@ from . import models, schemas
 
 
 # def get_users(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(models.User).offset(skip).limit(limit).all()
+#     return db.query(models.User).offset(skip).limit(limit).all() 
 
 
 # def create_user(db: Session, user: schemas.UserCreate):
@@ -37,20 +38,20 @@ from . import models, schemas
 
 
 
-def create_todo(db:Session,todo:schemas.CreateTodo):
-    db_todo=models.Item(todo=todo.todo)
+def create_todo(db:Session,todo:CreateTodo):
+    db_todo=Item(todo=todo.todo)
     db.add(db_todo)
     db.commit()
     db.refresh(db_todo)
     return db_todo      
 
 def get_todo(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
+    return db.query(Item).offset(skip).limit(limit).all()
 
 
 
-def update_todo(db: Session, todo_id: int, todo_update: schemas.CreateTodo):
-    db_todo = db.query(models.Item).filter(models.Item.id == todo_id).first()
+def update_todo(db: Session, todo_id: int, todo_update: CreateTodo):
+    db_todo = db.query(Item).filter(Item.id == todo_id).first()
     if not db_todo:
         return None
     db_todo.todo = todo_update.todo
@@ -59,7 +60,7 @@ def update_todo(db: Session, todo_id: int, todo_update: schemas.CreateTodo):
     return db_todo
 
 def delete_todo(db: Session, todo_id: int):
-    db_todo = db.query(models.Item).filter(models.Item.id == todo_id).first()
+    db_todo = db.query(Item).filter(Item.id == todo_id).first()
     if not db_todo:
         return None
     db.delete(db_todo)
